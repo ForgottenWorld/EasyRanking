@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS `easyranking_board` (
   `user_score_name` varchar(100) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `fg_reset` tinyint(1) NOT NULL DEFAULT true,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 INSERT INTO easyranking_board(`id`,`name`,`description`,`max_players`,`user_score_name`,`is_visible`,`is_deleted`,`is_default`) VALUES ('mobKilled','Killed Mobs','This leaderboard tracks how many hostile mobs were killed by the player',100,'kills',true,false,true) ON DUPLICATE KEY UPDATE `id` = `id`;
@@ -74,3 +75,4 @@ CREATE TABLE IF NOT EXISTS `easyranking_uncollected_item_reward` (
   `item_type` text,
   `collected` BOOL NOT NULL DEFAULT false
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+

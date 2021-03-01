@@ -181,7 +181,9 @@ public class ERRewardService implements RewardService {
                 Bukkit.getServer().broadcastMessage(ChatColor.GRAY + "No data found");
             }
             // Clear all data from memory
-            board.clearAllScores();
+            if(board.getFgReset()) {
+                board.clearAllScores();
+            }
         }
 
         // Clear all data from database

@@ -41,8 +41,8 @@ public class ERBoardService implements BoardService {
     }
 
     @Override
-    public Board createBoard(String id, String name, String description, int maxShownPlayers, String userScoreName, boolean isDefault) {
-        ERBoard board = new ERBoard(id, name, description, maxShownPlayers, userScoreName, isDefault);
+    public Board createBoard(String id, String name, String description, int maxShownPlayers, String userScoreName, boolean isDefault, boolean fgReset) {
+        ERBoard board = new ERBoard(id, name, description, maxShownPlayers, userScoreName, isDefault, fgReset);
         boardsList.add(board);
         ERRewardService.getInstance().registerBoard(board);
         return board;
@@ -66,6 +66,11 @@ public class ERBoardService implements BoardService {
     @Override
     public void modifyBoardSuffix(Board board, String suffix) {
         board.setUserScoreName(suffix);
+    }
+
+    @Override
+    public void modifyBoardShouldReset(Board board, boolean shouldReset) {
+        board.setFgReset(shouldReset);
     }
 
     @Override

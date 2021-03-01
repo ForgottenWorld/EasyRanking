@@ -127,6 +127,7 @@ public class ERCommandManager implements TabExecutor {
                     suggestions.add("description");
                     suggestions.add("maxShownPlayers");
                     suggestions.add("suffix");
+                    suggestions.add("reset");
                     break;
                 case CommandTypes.EXEMPT_COMMAND:
                 case CommandTypes.CLEAR_COMMAND:

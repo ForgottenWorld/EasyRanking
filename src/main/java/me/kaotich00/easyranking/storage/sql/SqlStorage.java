@@ -28,7 +28,7 @@ import java.util.*;
 
 public class SqlStorage implements StorageMethod {
 
-    private static final String BOARD_INSERT_OR_UPDATE = "INSERT INTO easyranking_board(`id`,`name`,`description`,`max_players`,`user_score_name`,`is_visible`,`is_deleted`,`is_default`) VALUES (?,?,?,?,?,true,false,?) ON DUPLICATE KEY UPDATE `name`=?, `description`=?, `max_players`=?, `user_score_name`=?";
+    private static final String BOARD_INSERT_OR_UPDATE = "INSERT INTO easyranking_board(`id`,`name`,`description`,`max_players`,`user_score_name`,`is_visible`,`is_deleted`,`is_default`,`fg_reset`) VALUES (?,?,?,?,?,true,false,?,?) ON DUPLICATE KEY UPDATE `name`=?, `description`=?, `max_players`=?, `user_score_name`=?, `fg_reset`=?";
     private static final String BOARD_SELECT = "SELECT * FROM easyranking_board WHERE is_deleted = false";
     private static final String BOARD_DELETE = "DELETE FROM easyranking_board WHERE id = ?";
 
@@ -53,7 +53,7 @@ public class SqlStorage implements StorageMethod {
     private static final String USER_DATA_DELETE_BY_BOARD = "DELETE FROM easyranking_user_score WHERE id_board = ?";
     private static final String USER_DATA_DELETE_BY_USER = "DELETE FROM easyranking_user_score WHERE id_user = ?";
 
-    private static final String BOARDS_CLEAR_DATA = "DELETE FROM easyranking_user_score";
+    private static final String BOARDS_CLEAR_DATA = "DELETE FROM easyranking_user_score WHERE id_board IN (SELECT id FROM easyranking_board WHERE fg_reset = true)";
     private static final String UNCOLLECTED_REWARD_CLEAR_UUID = "DELETE FROM easyranking_uncollected_item_reward WHERE uuid = ?";
     private static final String UNCOLLECTED_REWARD_SELECT = "SELECT * FROM easyranking_uncollected_item_reward WHERE collected = false";
     private static final String UNCOLLECTED_REWARD_DELETE = "DELETE FROM easyranking_uncollected_item_reward";
@@ -175,6 +175,7 @@ public class SqlStorage implements StorageMethod {
                         int maxShownPlayers = rs.getInt("max_players");
                         String userScoreName = rs.getString("user_score_name");
                         boolean isDefault = rs.getBoolean("is_default");
+                        boolean fgReset = rs.getBoolean("fg_reset");
 
                         if(isDefault && !defaultConfig.getBoolean(id + ".enabled")) {
                             continue;
@@ -182,7 +183,7 @@ public class SqlStorage implements StorageMethod {
 
                         Optional<Board> board = boardService.getBoardById(id);
                         if( !board.isPresent() ) {
-                            boardService.createBoard(id,name,description,maxShownPlayers,userScoreName, isDefault);
+                            boardService.createBoard(id, name, description, maxShownPlayers,userScoreName, isDefault, fgReset);
                         }
                     }
                 }
@@ -261,10 +262,12 @@ public class SqlStorage implements StorageMethod {
                 preparedStatement.setInt(4, b.getMaxShownPlayers());
                 preparedStatement.setString(5, b.getUserScoreName());
                 preparedStatement.setBoolean(6, b.isDefault());
-                preparedStatement.setString(7, b.getName());
-                preparedStatement.setString(8, b.getDescription());
-                preparedStatement.setInt(9, b.getMaxShownPlayers());
-                preparedStatement.setString(10, b.getUserScoreName());
+                preparedStatement.setBoolean(7, b.getFgReset());
+                preparedStatement.setString(8, b.getName());
+                preparedStatement.setString(9, b.getDescription());
+                preparedStatement.setInt(10, b.getMaxShownPlayers());
+                preparedStatement.setString(11, b.getUserScoreName());
+                preparedStatement.setBoolean(12, b.getFgReset());
                 preparedStatement.executeUpdate();
             }
             preparedStatement.close();

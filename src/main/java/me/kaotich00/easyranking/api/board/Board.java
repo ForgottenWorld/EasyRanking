@@ -40,4 +40,8 @@ public interface Board {
 
     void addUser(UUID player, Float amount);
 
+    boolean getFgReset();
+
+    void setFgReset(boolean fgReset);
+
 }

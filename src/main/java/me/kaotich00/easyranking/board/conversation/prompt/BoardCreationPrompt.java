@@ -146,7 +146,7 @@ public class BoardCreationPrompt implements ConversationAbandonedListener {
             String userScoreName = (String) context.getSessionData("boardUserScoreName");
 
             BoardService boardService = ERBoardService.getInstance();
-            boardService.createBoard(boardId,boardName,boardDescription,maxShownPlayers,userScoreName, false);
+            boardService.createBoard(boardId,boardName,boardDescription,maxShownPlayers,userScoreName, false, true);
 
             Player player = (Player) context.getForWhom();
             player.playSound( player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 10, 1 );

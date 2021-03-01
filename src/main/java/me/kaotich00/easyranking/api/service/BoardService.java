@@ -7,7 +7,7 @@ import java.util.concurrent.CompletableFuture;
 
 public interface BoardService {
 
-    Board createBoard(String id, String name, String description, int maxShownPlayers, String userScoreName, boolean isDefault);
+    Board createBoard(String id, String name, String description, int maxShownPlayers, String userScoreName, boolean isDefault, boolean fgReset);
 
     void modifyBoardName(Board board, String name);
 
@@ -16,6 +16,8 @@ public interface BoardService {
     void modifyBoardMaxShownPlayers(Board board, Integer maxShownPlayers);
 
     void modifyBoardSuffix(Board board, String suffix);
+
+    void modifyBoardShouldReset(Board board, boolean shouldReset);
 
     void deleteBoard(Board board);
 

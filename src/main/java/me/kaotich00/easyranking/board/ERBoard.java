@@ -13,8 +13,9 @@ public class ERBoard implements Board {
     private String userScoreName;
     private boolean isDefault;
     private Map<UUID,Float> userScore;
+    private boolean fgReset;
 
-    public ERBoard(String id, String name, String description, int maxShownPlayers, String userScoreName, boolean isDefault) {
+    public ERBoard(String id, String name, String description, int maxShownPlayers, String userScoreName, boolean isDefault, boolean fgReset) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -22,6 +23,7 @@ public class ERBoard implements Board {
         this.userScoreName = userScoreName;
         this.isDefault = isDefault;
         this.userScore = new HashMap<>();
+        this.fgReset = fgReset;
     }
 
     @Override
@@ -107,6 +109,16 @@ public class ERBoard implements Board {
     @Override
     public void addUser(UUID player, Float amount) {
         this.userScore.put(player, amount);
+    }
+
+    @Override
+    public boolean getFgReset() {
+        return this.fgReset;
+    }
+
+    @Override
+    public void setFgReset(boolean fgReset) {
+        this.fgReset = fgReset;
     }
 
     @Override

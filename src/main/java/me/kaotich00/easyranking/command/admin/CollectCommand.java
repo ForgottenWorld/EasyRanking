@@ -36,8 +36,6 @@ public class CollectCommand extends ERAdminCommand {
 
         RewardService rewardService = ERRewardService.getInstance();
         rewardService.collectRewards();
-
-        return;
     }
 
 }

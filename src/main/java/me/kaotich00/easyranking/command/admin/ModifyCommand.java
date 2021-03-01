@@ -1,5 +1,6 @@
 package me.kaotich00.easyranking.command.admin;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import me.kaotich00.easyranking.api.board.Board;
 import me.kaotich00.easyranking.api.service.BoardService;
 import me.kaotich00.easyranking.command.api.ERAdminCommand;
@@ -18,6 +19,7 @@ public class ModifyCommand extends ERAdminCommand {
     private final static String MODIFY_DESCRIPTION = "description";
     private final static String MODIFY_MAX_SHOWN_PLAYERS = "maxShownPlayers";
     private final static String MODIFY_SUFFIX = "suffix";
+    private final static String SHOULD_RESET = "reset";
 
     public void onCommand(CommandSender sender, String[] args) {
         if( args.length < 4 ) {
@@ -69,6 +71,12 @@ public class ModifyCommand extends ERAdminCommand {
             case MODIFY_SUFFIX:
                 boardService.modifyBoardSuffix(board, value.toString());
                 break;
+            case SHOULD_RESET:
+                if(!value.toString().equals("true") && !value.toString().equals("false")) {
+                    sender.sendMessage(ChatFormatter.formatErrorMessage("Value should either be true or false"));
+                    return;
+                }
+                boardService.modifyBoardShouldReset(board, Boolean.parseBoolean(value.toString()));
         }
 
         sender.sendMessage(ChatFormatter.formatSuccessMessage(ChatColor.DARK_GRAY + "[" + ChatColor.DARK_AQUA + board.getName() + ChatColor.DARK_GRAY + "] " + ChatColor.GRAY + "Successfully modified " + ChatColor.GREEN + modifyAction + ChatColor.GRAY + " to " + ChatColor.GOLD + value));
@@ -76,7 +84,7 @@ public class ModifyCommand extends ERAdminCommand {
     }
 
     private static boolean isValidAction(String modifyAction) {
-        return Arrays.asList("name","description","maxShownPlayers","suffix").contains(modifyAction);
+        return Arrays.asList("name","description","maxShownPlayers","suffix","reset").contains(modifyAction);
     }
 
 }
