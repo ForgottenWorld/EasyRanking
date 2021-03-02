@@ -6,6 +6,7 @@ import me.kaotich00.easyranking.service.ERBoardService;
 import me.kaotich00.easyranking.utils.BoardUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
@@ -13,7 +14,7 @@ import java.util.Optional;
 
 public class KilledPlayersListener implements Listener {
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerKilled(PlayerDeathEvent event) {
         if( !(event.getEntity().getKiller() instanceof Player) ) {
             return;

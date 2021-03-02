@@ -11,6 +11,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -20,7 +21,7 @@ import java.util.Optional;
 
 public class WoodCutListener implements Listener {
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onWoodCut(BlockBreakEvent event) {
         if( event.getPlayer().getGameMode().equals(GameMode.CREATIVE) ) {
             return;
@@ -56,7 +57,7 @@ public class WoodCutListener implements Listener {
         boardService.addScoreToPlayer(board, player.getUniqueId(), score.floatValue());
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onWoodPlaced(BlockPlaceEvent event) {
         FileConfiguration defaultConfig = Easyranking.getDefaultConfig();
         ConfigurationSection oreSection = defaultConfig.getConfigurationSection("wood.values");

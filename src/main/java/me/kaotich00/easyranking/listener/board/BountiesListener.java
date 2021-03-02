@@ -11,13 +11,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
 import java.util.Optional;
 
 public class BountiesListener implements Listener {
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onBountyAdd(BountyAddEvent event) {
         BoardService boardService = ERBoardService.getInstance();
 
@@ -37,7 +38,7 @@ public class BountiesListener implements Listener {
         boardService.addScoreToPlayer(board, player.getUniqueId(), event.getAmount().floatValue());
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onBountySubtract(BountySubtractEvent event) {
         BoardService boardService = ERBoardService.getInstance();
 

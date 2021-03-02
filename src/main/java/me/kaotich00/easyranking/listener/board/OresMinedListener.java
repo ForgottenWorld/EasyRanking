@@ -57,7 +57,7 @@ public class OresMinedListener implements Listener {
         boardService.addScoreToPlayer(board, player.getUniqueId(), score.floatValue());
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onOrePlaced(BlockPlaceEvent event) {
         FileConfiguration defaultConfig = Easyranking.getDefaultConfig();
         ConfigurationSection oreSection = defaultConfig.getConfigurationSection("oresMined.values");

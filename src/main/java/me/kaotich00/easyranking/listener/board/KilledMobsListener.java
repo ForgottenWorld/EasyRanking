@@ -9,6 +9,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 
@@ -16,7 +17,7 @@ import java.util.Optional;
 
 public class KilledMobsListener implements Listener {
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onMobKilled(EntityDeathEvent event) {
         if(!(event.getEntity() instanceof Monster) && !(event.getEntity() instanceof Flying) && !(event.getEntity() instanceof Slime)) {
             return;
