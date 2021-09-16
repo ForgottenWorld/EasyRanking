@@ -43,7 +43,7 @@
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                             <shadedArtifactAttached>true</shadedArtifactAttached>
                             <!--<outputDirectory>C:\Users\Simone\Desktop\Jatuldar\Server locale\plugins</outputDirectory>-->
-                            <outputDirectory>C:\Users\Vin\Desktop\SERBEN\plugins</outputDirectory>
+                            <!--<outputDirectory>C:\Users\Vin\Desktop\SERBEN\plugins</outputDirectory>-->
                         </configuration>
                     </execution>
                 </executions>
