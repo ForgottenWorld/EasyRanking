@@ -6,7 +6,7 @@
 
     <groupId>me.kaotich00</groupId>
     <artifactId>easyranking</artifactId>
-    <version>0.2.0</version>
+    <version>0.2.1</version>
     <packaging>jar</packaging>
 
     <name>Easyranking</name>
@@ -43,7 +43,7 @@
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                             <shadedArtifactAttached>true</shadedArtifactAttached>
                             <!--<outputDirectory>C:\Users\Simone\Desktop\Jatuldar\Server locale\plugins</outputDirectory>-->
-                            <outputDirectory>C:\Users\Simone\Desktop\Minecraft\Jatuldar\plugins</outputDirectory>
+                            <outputDirectory>C:\Users\Vin\Desktop\SERBEN\plugins</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
@@ -84,7 +84,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.16.1-R0.1-SNAPSHOT</version>
+            <version>1.17.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -96,7 +96,7 @@
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
-            <version>3.4.5</version>
+            <version>5.0.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

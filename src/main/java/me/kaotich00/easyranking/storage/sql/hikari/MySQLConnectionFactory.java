@@ -12,7 +12,7 @@ public class MySQLConnectionFactory extends HikariConnectionFactory {
 
     @Override
     protected String getDrivers() {
-        return "com.mysql.jdbc.jdbc2.optional.MysqlDataSource";
+        return "com.mysql.cj.jdbc.MysqlDataSource";
     }
 
     @Override
