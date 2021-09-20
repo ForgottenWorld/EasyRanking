@@ -29,6 +29,11 @@ public class ChatFormatter {
         return message;
     }
 
+    public static String formatWarningMessage(String message) {
+        message = pluginPrefix() + ChatColor.GOLD + "" + ChatColor.ITALIC + message;
+        return message;
+    }
+
     public static String formatErrorMessage(String message) {
         message = pluginPrefix() + ChatColor.RED + message;
         return message;
@@ -36,28 +41,6 @@ public class ChatFormatter {
 
     public static String thousandSeparator(Long value) {
         return NumberFormat.getNumberInstance(Locale.ITALY).format(value);
-    }
-
-    public static String thousandSeparator(Integer value) {
-        return NumberFormat.getNumberInstance(Locale.ITALY).format(value);
-    }
-
-    public static String helpMessage() {
-        String message = chatHeader();
-        message = message.concat(
-                "\n" + ChatColor.GRAY + ">> " + ChatColor.DARK_GREEN + "/er " + ChatColor.GREEN + "create " + ChatColor.DARK_GRAY +
-                "\n" + ChatColor.GRAY + ">> " + ChatColor.DARK_GREEN + "/er " + ChatColor.GREEN + "info " + ChatColor.DARK_GRAY + "<" + ChatColor.GRAY + "board_id" + ChatColor.DARK_GRAY + "> " +
-                "\n" + ChatColor.GRAY + ">> " + ChatColor.DARK_GREEN + "/er " + ChatColor.GREEN + "modify "  + ChatColor.DARK_GRAY + "<" + ChatColor.GRAY + "board_id" + ChatColor.DARK_GRAY + "> " + ChatColor.DARK_AQUA + "[" + ChatColor.AQUA + "name/description/maxShownPlayers/suffix" + ChatColor.DARK_AQUA + "] " + ChatColor.DARK_GRAY + "<" + ChatColor.GRAY + "value" + ChatColor.DARK_GRAY + "> " +
-                "\n" + ChatColor.GRAY + ">> " + ChatColor.DARK_GREEN + "/er " + ChatColor.GREEN + "delete "  + ChatColor.DARK_GRAY + "<" + ChatColor.GRAY + "board_id" + ChatColor.DARK_GRAY + "> " +
-                "\n" + ChatColor.GRAY + ">> " + ChatColor.DARK_GREEN + "/er " + ChatColor.GREEN + "reward " + ChatColor.DARK_GRAY + "<" + ChatColor.GRAY + "board_id" + ChatColor.DARK_GRAY + ">" +
-                "\n" + ChatColor.GRAY + ">> " + ChatColor.DARK_GREEN + "/er " + ChatColor.GREEN + "score "  + ChatColor.DARK_GRAY + "<" + ChatColor.GRAY + "board_id" + ChatColor.DARK_GRAY + "> " + ChatColor.DARK_AQUA + "[" + ChatColor.AQUA + "add/subtract" + ChatColor.DARK_AQUA + "] " + ChatColor.DARK_GRAY + "<" + ChatColor.GRAY + "player" + ChatColor.DARK_GRAY + "> " + "<" + ChatColor.GRAY + "amount" + ChatColor.DARK_GRAY + ">" +
-                "\n" + ChatColor.GRAY + ">> " + ChatColor.DARK_GREEN + "/er " + ChatColor.GREEN + "top " +  ChatColor.DARK_GRAY + "<" + ChatColor.GRAY + "board_id" + ChatColor.DARK_GRAY + "> " + ChatColor.DARK_AQUA + "[" + ChatColor.AQUA + "page" + ChatColor.DARK_AQUA + "]" +
-                "\n" + ChatColor.GRAY + ">> " + ChatColor.DARK_GREEN + "/er " + ChatColor.GREEN + "exempt " + ChatColor.DARK_AQUA + "[" + ChatColor.AQUA + "list/add/remove" + ChatColor.DARK_AQUA + "] " + ChatColor.DARK_GRAY + "<" + ChatColor.GRAY + "player" + ChatColor.DARK_GRAY + "> " +
-                "\n" + ChatColor.GRAY + ">> " + ChatColor.DARK_GREEN + "/er " + ChatColor.GREEN + "collect " +
-                "\n" + ChatColor.GRAY + ">> " + ChatColor.DARK_GREEN + "/er " + ChatColor.GREEN + "reload" +
-                "\n" + ChatColor.GRAY + ">> " + ChatColor.DARK_GREEN + "/er " + ChatColor.GREEN + "credits"
-        );
-        return message;
     }
 
     public static String creditsMessage() {

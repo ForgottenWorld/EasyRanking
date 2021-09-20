@@ -1,36 +1,59 @@
-package me.kaotich00.easyranking.command.admin;
+package me.kaotich00.easyranking.commandrework.admin;
 
 import me.kaotich00.easyranking.api.service.BoardService;
-import me.kaotich00.easyranking.command.api.ERAdminCommand;
+import me.kaotich00.easyranking.commandrework.CommandName;
+import me.kaotich00.easyranking.commandrework.SubCommand;
 import me.kaotich00.easyranking.service.ERBoardService;
 import me.kaotich00.easyranking.utils.ChatFormatter;
-import me.kaotich00.easyranking.utils.CommandTypes;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.List;
 import java.util.UUID;
 
-public class ExemptCommand extends ERAdminCommand {
+public class ExemptCommand extends SubCommand {
 
     private final static String EXEMPT_ADD = "add";
     private final static String EXEMPT_REMOVE = "remove";
     private final static String EXEMPT_LIST = "list";
 
-    public void onCommand(CommandSender sender, String[] args) {
+    @Override
+    public String getName() {
+        return CommandName.EXEMPT;
+    }
 
-        if( args.length < 1 ) {
-            sender.sendMessage(ChatFormatter.formatErrorMessage("Not enough arguments, usage:"));
-            sender.sendMessage(ChatFormatter.formatSuccessMessage(ChatColor.DARK_GREEN + "/er " + ChatColor.GREEN + "exempt "  + ChatColor.DARK_GRAY + "[add/remove/list] " + ChatColor.DARK_GRAY + "<" + ChatColor.GRAY + "player" + ChatColor.DARK_GRAY + "> "));
-            return;
-        }
+    @Override
+    public String getInfo() {
+        return "Manages exempted players list";
+    }
 
-        if( (args[1].equals(EXEMPT_ADD) || args[1].equals(EXEMPT_REMOVE)) && args.length < 2 ) {
+    @Override
+    public String getUsage() {
+        return ChatColor.DARK_GREEN + "/er " + ChatColor.GREEN + "exempt " + ChatColor.DARK_AQUA + "[" +
+                ChatColor.AQUA + "list/add/remove" + ChatColor.DARK_AQUA + "] " + ChatColor.DARK_GRAY + "<" +
+                ChatColor.GRAY + "player" + ChatColor.DARK_GRAY + "> ";
+    }
+
+    @Override
+    public String getPerm() {
+        return "easyranking.admin";
+    }
+
+    @Override
+    public int getArgsRequired() {
+        return 1;
+    }
+
+    @Override
+    public void perform(Player sender, String[] args) {
+
+        if ((args[1].equalsIgnoreCase(EXEMPT_ADD) || args[1].equalsIgnoreCase(EXEMPT_REMOVE)) && args.length < 3) {
             sender.sendMessage(ChatFormatter.formatErrorMessage("Not enough arguments, usage:"));
-            sender.sendMessage(ChatFormatter.formatSuccessMessage(ChatColor.DARK_GREEN + "/er " + ChatColor.GREEN + "exempt "  + ChatColor.DARK_GRAY + "[add/remove] " + ChatColor.DARK_GRAY + "<" + ChatColor.GRAY + "player" + ChatColor.DARK_GRAY + "> "));
+            sender.sendMessage(ChatFormatter.formatSuccessMessage(ChatColor.DARK_GREEN + "/er " + ChatColor.GREEN +
+                    "exempt "  + ChatColor.DARK_GRAY + "[add/remove] " + ChatColor.DARK_GRAY + "<" + ChatColor.GRAY +
+                    "player" + ChatColor.DARK_GRAY + "> "));
             return;
         }
 
@@ -95,7 +118,11 @@ public class ExemptCommand extends ERAdminCommand {
                 break;
         }
 
-        return;
+    }
+
+    @Override
+    public List<String> getSubcommandArguments(Player player, String[] args) {
+        return null;
     }
 
 }

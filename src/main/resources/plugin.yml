@@ -12,3 +12,10 @@ commands:
     description: Main EasyRanking command
     usage: /<command>
     aliases: [er, easy, easyranking]
+permissions:
+  easyranking.admin:
+    description: gives access to the administrator commands
+    default: op
+  easyranking.user:
+    description: gives access to the user commands
+    default: true

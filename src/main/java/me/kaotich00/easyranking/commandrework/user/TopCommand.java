@@ -1,12 +1,12 @@
-package me.kaotich00.easyranking.command.user;
+package me.kaotich00.easyranking.commandrework.user;
 
 import me.kaotich00.easyranking.api.board.Board;
 import me.kaotich00.easyranking.api.service.BoardService;
-import me.kaotich00.easyranking.command.api.ERUserCommand;
+import me.kaotich00.easyranking.commandrework.CommandName;
+import me.kaotich00.easyranking.commandrework.SubCommand;
 import me.kaotich00.easyranking.service.ERBoardService;
 import me.kaotich00.easyranking.utils.ChatFormatter;
-import me.kaotich00.easyranking.utils.CommandTypes;
-import me.rayzr522.jsonmessage.JSONMessage;
+import me.kaotich00.easyranking.utils.NameUtil;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -15,28 +15,43 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
-public class TopCommand extends ERUserCommand {
+public class TopCommand extends SubCommand {
+    @Override
+    public String getName() {
+        return CommandName.TOP;
+    }
 
-    public void onCommand(CommandSender sender, String[] args) {
+    @Override
+    public String getInfo() {
+        return "Top players of selected board";
+    }
 
-        if(!(sender instanceof Player)) {
-            sender.sendMessage(ChatFormatter.formatErrorMessage("Only players can run that command"));
-            return;
-        }
+    @Override
+    public String getUsage() {
+        return ChatColor.DARK_GREEN + "/er " + ChatColor.GREEN + "top " +  ChatColor.DARK_GRAY + "<" + ChatColor.GRAY +
+                "board_id" + ChatColor.DARK_GRAY + "> " + ChatColor.DARK_AQUA + "[" + ChatColor.AQUA + "page" +
+                ChatColor.DARK_AQUA + "]";
+    }
 
-        if( args.length < 2 ) {
-            sender.sendMessage(ChatFormatter.formatErrorMessage("Not enough arguments, usage:"));
-            sender.sendMessage(ChatFormatter.formatSuccessMessage(ChatColor.DARK_GREEN + "/er " + ChatColor.GREEN + "top "  + ChatColor.DARK_GRAY + "<" + ChatColor.GRAY + "board_id" + ChatColor.DARK_GRAY + "> " + "[" + ChatColor.AQUA + "page" + ChatColor.DARK_AQUA + "]" ));
-            return;
-        }
+    @Override
+    public String getPerm() {
+        return "easyranking.user";
+    }
 
+    @Override
+    public int getArgsRequired() {
+        return 2;
+    }
+
+    @Override
+    public void perform(Player sender, String[] args) {
         BoardService boardService = ERBoardService.getInstance();
 
         String boardName = args[1];
@@ -57,13 +72,21 @@ public class TopCommand extends ERUserCommand {
 
         List<UUID> userScores = boardService.sortScores(board);
         paginateBoard(sender, board, userScores, page);
+    }
 
-        return;
+    @Override
+    public List<String> getSubcommandArguments(Player player, String[] args) {
+        if (args.length == 2) {
+            BoardService boardService = ERBoardService.getInstance();
+            return boardService.getBoards().stream().map(Board::getId)
+                    .collect(Collectors.toList());
+        }
+        return null;
     }
 
     private static void paginateBoard(CommandSender sender, Board board, List<UUID> playerList, int page) {
 
-        int maxPlayersPerPage = 15;
+        int maxPlayersPerPage = 10;
         int totalPages = 1;
 
         if( playerList.size() > 0 ) {
@@ -73,7 +96,7 @@ public class TopCommand extends ERUserCommand {
         StringBuilder sb = new StringBuilder();
         sb.append(ChatFormatter.chatHeader());
         sb.append("\n ");
-        sb.append("Top players for the board " + ChatColor.DARK_AQUA + board.getName());
+        sb.append("Top players for the board " + ChatColor.DARK_AQUA).append(board.getName());
 
         if(playerList.size() == 0) {
             sb.append("\n" + ChatColor.DARK_GRAY + "No players found");

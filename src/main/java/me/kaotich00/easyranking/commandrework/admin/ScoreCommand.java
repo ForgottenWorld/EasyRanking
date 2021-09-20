@@ -1,31 +1,58 @@
-package me.kaotich00.easyranking.command.admin;
+package me.kaotich00.easyranking.commandrework.admin;
 
 import me.kaotich00.easyranking.api.board.Board;
 import me.kaotich00.easyranking.api.service.BoardService;
-import me.kaotich00.easyranking.command.api.ERAdminCommand;
+import me.kaotich00.easyranking.commandrework.CommandName;
+import me.kaotich00.easyranking.commandrework.SubCommand;
 import me.kaotich00.easyranking.service.ERBoardService;
 import me.kaotich00.easyranking.utils.ChatFormatter;
-import me.kaotich00.easyranking.utils.CommandTypes;
+import me.kaotich00.easyranking.utils.NameUtil;
 import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
-public class ScoreCommand extends ERAdminCommand {
+public class ScoreCommand extends SubCommand {
 
-    public void onCommand(CommandSender sender, String[] args) {
-        if( args.length < 5 ) {
-            sender.sendMessage(ChatFormatter.formatErrorMessage("Not enough arguments, usage:"));
-            sender.sendMessage(ChatFormatter.formatSuccessMessage(ChatColor.DARK_GREEN + "/er " + ChatColor.GREEN + "score "  + ChatColor.DARK_GRAY + "<" + ChatColor.GRAY + "nome" + ChatColor.DARK_GRAY + "> " + ChatColor.DARK_AQUA + "[add/subtract] " + ChatColor.DARK_GRAY + "<" + ChatColor.GRAY + "player" + ChatColor.DARK_GRAY + "> " + "<" + ChatColor.GRAY + "amount" + ChatColor.DARK_GRAY + ">"));
-            return;
-        }
+    private final List<String> actions = Arrays.asList("add","subtract","set");
 
+    @Override
+    public String getName() {
+        return CommandName.SCORE;
+    }
+
+    @Override
+    public String getInfo() {
+        return "Manage player scores";
+    }
+
+    @Override
+    public String getUsage() {
+        return ChatColor.DARK_GREEN + "/er " + ChatColor.GREEN + "score "  + ChatColor.DARK_GRAY + "<" +
+                ChatColor.GRAY + "board_id" + ChatColor.DARK_GRAY + "> " + ChatColor.DARK_AQUA + "[" +
+                ChatColor.AQUA + "add/subtract/set" + ChatColor.DARK_AQUA + "] " + ChatColor.DARK_GRAY + "<" +
+                ChatColor.GRAY + "player" + ChatColor.DARK_GRAY + "> " + "<" + ChatColor.GRAY + "amount" +
+                ChatColor.DARK_GRAY + ">";
+    }
+
+    @Override
+    public String getPerm() {
+        return "easyranking.admin";
+    }
+
+    @Override
+    public int getArgsRequired() {
+        return 5;
+    }
+
+    @Override
+    public void perform(Player sender, String[] args) {
         BoardService boardService = ERBoardService.getInstance();
 
         String boardName = args[1];
@@ -89,11 +116,21 @@ public class ScoreCommand extends ERAdminCommand {
         }
 
         sender.sendMessage(ChatFormatter.formatSuccessMessage(ChatColor.GRAY + "New score for " + ChatColor.GOLD + playerName + ChatColor.GRAY + ": " + ChatColor.GREEN + ChatFormatter.thousandSeparator(totalScore.longValue())));
-        return;
+    }
+
+    @Override
+    public List<String> getSubcommandArguments(Player player, String[] args) {
+        if (args.length == 2) {
+            BoardService boardService = ERBoardService.getInstance();
+            return boardService.getBoards().stream().map(Board::getId)
+                    .collect(Collectors.toList());
+        }
+        if (args.length == 3)
+            return actions;
+        return null;
     }
 
     private static boolean isValidScoreOperator(String scoreOperator) {
         return Arrays.asList("add","subtract","set").contains(scoreOperator);
     }
-
 }
