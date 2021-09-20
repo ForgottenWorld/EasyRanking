@@ -1,7 +1,7 @@
 package me.kaotich00.easyranking;
 
 import me.kaotich00.easyranking.api.service.TaskService;
-import me.kaotich00.easyranking.command.ERCommandManager;
+import me.kaotich00.easyranking.commandrework.CommandManager;
 import me.kaotich00.easyranking.listener.board.*;
 import me.kaotich00.easyranking.listener.gui.reward.GUIRewardListener;
 import me.kaotich00.easyranking.listener.gui.reward.TitleRewardListener;
@@ -18,6 +18,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.Objects;
 
 public final class Easyranking extends JavaPlugin {
 
@@ -61,7 +63,7 @@ public final class Easyranking extends JavaPlugin {
     }
 
     public void registerCommands() {
-        getCommand("er").setExecutor(new ERCommandManager(this));
+        Objects.requireNonNull(getCommand("er")).setExecutor(new CommandManager());
     }
 
     public void registerServices() {
@@ -106,16 +108,18 @@ public final class Easyranking extends JavaPlugin {
         }
     }
 
+    @SuppressWarnings("ConstantConditions")
     public boolean setupEconomy() {
-        if (Bukkit.getPluginManager().getPlugin("Vault") == null) {
+        if (Bukkit.getPluginManager().getPlugin("Vault") == null)
             return false;
-        }
 
         RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
-        if (rsp == null) {
+
+        if (rsp == null)
             return false;
-        }
+
         economyService = rsp.getProvider();
+
         return economyService != null;
     }
 

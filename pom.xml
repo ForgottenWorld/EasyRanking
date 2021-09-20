@@ -6,7 +6,7 @@
 
     <groupId>me.kaotich00</groupId>
     <artifactId>easyranking</artifactId>
-    <version>0.2.1</version>
+    <version>0.2.1-A</version>
     <packaging>jar</packaging>
 
     <name>Easyranking</name>
@@ -96,7 +96,7 @@
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
-            <version>5.0.0</version>
+            <version>3.4.5</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

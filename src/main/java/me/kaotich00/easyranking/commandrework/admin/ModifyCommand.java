@@ -1,38 +1,66 @@
-package me.kaotich00.easyranking.command.admin;
+package me.kaotich00.easyranking.commandrework.admin;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import me.kaotich00.easyranking.api.board.Board;
 import me.kaotich00.easyranking.api.service.BoardService;
-import me.kaotich00.easyranking.command.api.ERAdminCommand;
+import me.kaotich00.easyranking.commandrework.CommandName;
+import me.kaotich00.easyranking.commandrework.SubCommand;
 import me.kaotich00.easyranking.service.ERBoardService;
 import me.kaotich00.easyranking.utils.ChatFormatter;
-import me.kaotich00.easyranking.utils.CommandTypes;
+import me.kaotich00.easyranking.utils.NameUtil;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import java.util.Arrays;
+import org.bukkit.entity.Player;
 
-public class ModifyCommand extends ERAdminCommand {
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class ModifyCommand extends SubCommand {
 
     private final static String MODIFY_NAME = "name";
     private final static String MODIFY_DESCRIPTION = "description";
     private final static String MODIFY_MAX_SHOWN_PLAYERS = "maxShownPlayers";
     private final static String MODIFY_SUFFIX = "suffix";
     private final static String SHOULD_RESET = "reset";
+    private final List<String> actions = Arrays.asList(MODIFY_NAME, MODIFY_DESCRIPTION,
+            MODIFY_MAX_SHOWN_PLAYERS, MODIFY_SUFFIX, SHOULD_RESET);
 
-    public void onCommand(CommandSender sender, String[] args) {
-        if( args.length < 4 ) {
-            sender.sendMessage(ChatFormatter.formatErrorMessage("Not enough arguments, usage:"));
-            sender.sendMessage(ChatFormatter.formatSuccessMessage(ChatColor.DARK_GREEN + "/er " + ChatColor.GREEN + "modify "  + ChatColor.DARK_GRAY + "<" + ChatColor.GRAY + "board_id" + ChatColor.DARK_GRAY + "> " + ChatColor.DARK_AQUA + "[name/description/maxShownPlayers/suffix] " + ChatColor.DARK_GRAY + "<" + ChatColor.GRAY + "value" + ChatColor.DARK_GRAY + "> "));
-            return;
-        }
+    @Override
+    public String getName() {
+        return CommandName.MODIFY;
+    }
 
+    @Override
+    public String getInfo() {
+        return "Manage boards settings";
+    }
+
+    @Override
+    public String getUsage() {
+        return ChatColor.DARK_GREEN + "/er " + ChatColor.GREEN + "modify "  + ChatColor.DARK_GRAY +
+                "<" + ChatColor.GRAY + "board_id" + ChatColor.DARK_GRAY + "> " + ChatColor.DARK_AQUA + "[" +
+                ChatColor.AQUA + "name/description/maxShownPlayers/suffix" + ChatColor.DARK_AQUA + "] " +
+                ChatColor.DARK_GRAY + "<" + ChatColor.GRAY + "value" + ChatColor.DARK_GRAY + "> ";
+    }
+
+    @Override
+    public String getPerm() {
+        return "easyranking.admin";
+    }
+
+    @Override
+    public int getArgsRequired() {
+        return 4;
+    }
+
+    @Override
+    public void perform(Player sender, String[] args) {
         BoardService boardService = ERBoardService.getInstance();
 
         String boardName = args[1];
         if(!boardService.isIdAlreadyUsed(boardName)) {
-            sender.sendMessage(ChatFormatter.formatErrorMessage("No board found for the name " + ChatColor.GOLD + boardName + ChatColor.RED ));
+            sender.sendMessage(ChatFormatter.formatErrorMessage("No board found for the name " + ChatColor.GOLD +
+                    boardName + ChatColor.RED ));
             return;
         }
         Board board = boardService.getBoardById(boardName).get();
@@ -79,12 +107,26 @@ public class ModifyCommand extends ERAdminCommand {
                 boardService.modifyBoardShouldReset(board, Boolean.parseBoolean(value.toString()));
         }
 
-        sender.sendMessage(ChatFormatter.formatSuccessMessage(ChatColor.DARK_GRAY + "[" + ChatColor.DARK_AQUA + board.getName() + ChatColor.DARK_GRAY + "] " + ChatColor.GRAY + "Successfully modified " + ChatColor.GREEN + modifyAction + ChatColor.GRAY + " to " + ChatColor.GOLD + value));
-        return;
+        sender.sendMessage(ChatFormatter.formatSuccessMessage(ChatColor.DARK_GRAY + "[" + ChatColor.DARK_AQUA +
+                board.getName() + ChatColor.DARK_GRAY + "] " + ChatColor.GRAY + "Successfully modified " +
+                ChatColor.GREEN + modifyAction + ChatColor.GRAY + " to " + ChatColor.GOLD + value));
+
     }
+
+    @Override
+    public List<String> getSubcommandArguments(Player player, String[] args) {
+        if (args.length == 2) {
+            BoardService boardService = ERBoardService.getInstance();
+            return boardService.getBoards().stream().map(Board::getId)
+                    .collect(Collectors.toList());
+        }
+        if (args.length == 3)
+            return actions;
+        return null;
+    }
+
 
     private static boolean isValidAction(String modifyAction) {
         return Arrays.asList("name","description","maxShownPlayers","suffix","reset").contains(modifyAction);
     }
-
 }
