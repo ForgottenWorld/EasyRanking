@@ -8,14 +8,13 @@ import me.kaotich00.easyranking.utils.ChatFormatter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.scoreboard.*;
 
 import java.util.*;
 
 public class ERScoreboardService implements ScoreboardService {
 
     private static ERScoreboardService taskService;
-    private Map<UUID, FastBoard> scoreboards;
+    private final Map<UUID, FastBoard> scoreboards;
 
     private ERScoreboardService() {
         if (taskService != null){
@@ -54,9 +53,8 @@ public class ERScoreboardService implements ScoreboardService {
     @Override
     public void updateScoreBoard(UUID playerUUID) {
 
-        if(!isPlayerInScoreboard(playerUUID)) {
+        if(!isPlayerInScoreboard(playerUUID))
             return;
-        }
 
         BoardService boardService = ERBoardService.getInstance();
         FastBoard scoreboard = this.scoreboards.get(playerUUID);
@@ -71,7 +69,8 @@ public class ERScoreboardService implements ScoreboardService {
             for(Board board: boardService.getBoards()) {
                 if( board.getUserScore(playerUUID).isPresent() ) {
                     Float amount = board.getUserScore(playerUUID).get();
-                    lines.add(ChatColor.DARK_GRAY + "[" + ChatColor.DARK_AQUA + board.getName() + ChatColor.DARK_GRAY + "]");
+                    lines.add(ChatColor.DARK_GRAY + "[" + ChatColor.DARK_AQUA + board.getName() + ChatColor.DARK_GRAY
+                            + "] " + ChatColor.GREEN + ">> " + boardService.getPlayerBoardRank(board,playerUUID) + "°");
                     lines.add(ChatColor.GOLD + ChatFormatter.thousandSeparator(amount.longValue()));
                     lines.add("");
                     hasValues = true;
@@ -85,12 +84,15 @@ public class ERScoreboardService implements ScoreboardService {
 
         lines.add(ChatColor.GREEN + String.join("", Collections.nCopies(15, "-")));
 
+        assert scoreboard != null;
         scoreboard.updateLines(lines);
     }
 
     @Override
     public void newScoreboard(UUID playerUUID) {
         Player player = Bukkit.getPlayer(playerUUID);
+
+        if (player == null) return;
 
         FastBoard board = new FastBoard(player);
         board.updateTitle(ChatColor.DARK_GRAY + "[" + ChatColor.DARK_GREEN + "" + ChatColor.BOLD + "Easy" + ChatColor.GREEN + ChatColor.BOLD + "Ranking" + ChatColor.DARK_GRAY + "]");

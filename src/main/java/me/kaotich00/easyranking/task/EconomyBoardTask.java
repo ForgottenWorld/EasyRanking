@@ -6,6 +6,7 @@ import me.kaotich00.easyranking.api.service.BoardService;
 import me.kaotich00.easyranking.service.ERBoardService;
 import me.kaotich00.easyranking.utils.BoardUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -15,9 +16,9 @@ public class EconomyBoardTask {
 
     public static int scheduleEconomy() {
         FileConfiguration defaultConfig = Easyranking.getDefaultConfig();
-        Long period = defaultConfig.getLong("economy.sync_frequency") * 1200;
+        long period = defaultConfig.getLong("economy.sync_frequency") * 1200;
 
-        int taskId = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(Easyranking.getPlugin(Easyranking.class), () -> {
+        return Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(Easyranking.getPlugin(Easyranking.class), () -> {
             BoardService boardService = ERBoardService.getInstance();
             Optional<Board> optionalBoard = boardService.getBoardById(BoardUtil.ECONOMY_BOARD_SERVICE_ID);
 
@@ -27,17 +28,24 @@ public class EconomyBoardTask {
 
             Board board = optionalBoard.get();
 
-            for( OfflinePlayer player : Bukkit.getOfflinePlayers() ) {
-                Double balance = Easyranking.getEconomy().getBalance(player);
+            for( OfflinePlayer offlinePlayer : Bukkit.getOfflinePlayers() ) {
 
-                if(boardService.isUserExempted(player.getUniqueId())) {
+                if (offlinePlayer.getName() == null) {
+                    Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.DARK_PURPLE + "[LOG] [ER] EconomyBoardTask line 33 : " +
+                            "\n offlinePlayer with null name -> "+ offlinePlayer.getUniqueId());
                     continue;
                 }
 
-                boardService.setScoreOfPlayer(board, player.getUniqueId(), balance.floatValue());
+                double balance = Easyranking.getEconomy().getBalance(offlinePlayer);
+
+
+                if(boardService.isUserExempted(offlinePlayer.getUniqueId()))
+                    continue;
+
+
+                boardService.setScoreOfPlayer(board, offlinePlayer.getUniqueId(), (float) balance);
             }
         }, period, period );
-        return taskId;
     }
 
 }

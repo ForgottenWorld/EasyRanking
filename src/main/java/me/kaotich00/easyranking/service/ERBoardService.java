@@ -9,7 +9,6 @@ import me.kaotich00.easyranking.storage.Storage;
 import me.kaotich00.easyranking.storage.StorageFactory;
 import me.kaotich00.easyranking.utils.ChatFormatter;
 import me.kaotich00.easyranking.utils.SortUtil;
-import me.rayzr522.jsonmessage.JSONMessage;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -114,7 +113,7 @@ public class ERBoardService implements BoardService {
     @Override
     public List<UUID> sortScores(Board board) {
         Map<UUID,Float> sortedMap = SortUtil.sortByValue(board.getAllScores(),SortUtil.DESC);
-        return new ArrayList<UUID>(sortedMap.keySet());
+        return new ArrayList<>(sortedMap.keySet());
     }
 
     @Override
@@ -195,6 +194,18 @@ public class ERBoardService implements BoardService {
     }
 
     @Override
+    public String getPlayerBoardRank(Board board, UUID playerUUID) {
+
+        if( isUserExempted(playerUUID) || !board.getUserScore(playerUUID).isPresent() )
+            return "ND";
+
+        List<UUID> userScores = ERBoardService.getInstance().sortScores(board);
+
+        return String.valueOf(userScores.indexOf(playerUUID) + 1);
+
+    }
+
+    @Override
     public float setScoreOfPlayer(Board board, UUID playerUUID, Float score) {
 
         if( isUserExempted(playerUUID) ) {
@@ -234,6 +245,7 @@ public class ERBoardService implements BoardService {
             b.clearUserScore(player);
         }
         CompletableFuture.runAsync(() -> storage.getStorageMethod().deleteUserScores(player));
+
     }
 
     @Override
@@ -245,9 +257,9 @@ public class ERBoardService implements BoardService {
     public void toggleUserExempt(UUID player) {
         if(isUserExempted(player)) {
             this.exemptedUsers.remove(player);
-        } else {
-            this.exemptedUsers.add(player);
+            return;
         }
+        this.exemptedUsers.add(player);
     }
 
     @Override

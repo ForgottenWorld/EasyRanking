@@ -37,6 +37,8 @@ public interface BoardService {
 
     float addScoreToPlayer(Board board, UUID playerUUID, Float score);
 
+    String getPlayerBoardRank(Board board, UUID playerUUID);
+
     float subtractScoreFromPlayer(Board board, UUID playerUUID, Float score);
 
     float setScoreOfPlayer(Board board, UUID playerUUID, Float score);
