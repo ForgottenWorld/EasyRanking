@@ -6,7 +6,7 @@
 
     <groupId>me.kaotich00</groupId>
     <artifactId>easyranking</artifactId>
-    <version>0.2.1-A</version>
+    <version>0.2.2-A</version>
     <packaging>jar</packaging>
 
     <name>Easyranking</name>
