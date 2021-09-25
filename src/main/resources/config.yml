@@ -115,3 +115,18 @@ farming:
   # Define the amount of points given for each cultivation type
   values:
     WHEAT: 10
+
+# FISHING LEADERBOARD
+# Please never ever change the leaderboard node name,
+# unless you want very big trouble
+fishing:
+  enabled: true
+  # Define the amount of points given for each cultivation type
+  values:
+    COD: 1
+    SALMON: 1
+    PUFFERFISH: 5
+    ENCHANTED_BOOK: 20
+    TROPICAL_FISH: 10
+    NAUTILUS_SHELL: 2
+    SADDLE: 5

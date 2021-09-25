@@ -34,4 +34,8 @@ public class BoardUtil {
     public static final String FARMER_BOARD_NAME = "Farmer";
     public static final String FARMER_BOARD_DESCRIPTION = "This leaderboard tracks how many blocks of type farming were harvested";
 
+    public static final String FISHING_BOARD_ID = "fishing";
+    public static final String FISHING_BOARD_NAME = "Fisherman";
+    public static final String FISHING_BOARD_DESCRIPTION = "This leaderboard tracks how many fishes has the player fish";
+
 }
