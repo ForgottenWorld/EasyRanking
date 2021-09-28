@@ -6,7 +6,6 @@ import me.kaotich00.easyranking.commandrework.CommandName;
 import me.kaotich00.easyranking.commandrework.SubCommand;
 import me.kaotich00.easyranking.service.ERBoardService;
 import me.kaotich00.easyranking.utils.ChatFormatter;
-import me.kaotich00.easyranking.utils.NameUtil;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -122,6 +121,8 @@ public class ModifyCommand extends SubCommand {
         }
         if (args.length == 3)
             return actions;
+        if (args.length == 4 && args[3].equalsIgnoreCase("reset"))
+            return Arrays.asList("true","false");
         return null;
     }
 

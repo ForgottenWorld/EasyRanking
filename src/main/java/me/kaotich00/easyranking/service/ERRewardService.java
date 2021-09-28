@@ -1,14 +1,10 @@
 package me.kaotich00.easyranking.service;
 
-import com.palmergames.bukkit.towny.TownyAPI;
-import com.palmergames.bukkit.towny.exceptions.NotRegisteredException;
-import com.palmergames.bukkit.towny.object.Resident;
 import me.kaotich00.easyranking.Easyranking;
 import me.kaotich00.easyranking.api.board.Board;
 import me.kaotich00.easyranking.api.reward.Reward;
 import me.kaotich00.easyranking.api.service.BoardService;
 import me.kaotich00.easyranking.api.service.RewardService;
-import me.kaotich00.easyranking.api.service.ScoreboardService;
 import me.kaotich00.easyranking.reward.types.ERItemReward;
 import me.kaotich00.easyranking.reward.types.ERMoneyReward;
 import me.kaotich00.easyranking.reward.types.ERTitleReward;
@@ -30,14 +26,14 @@ import java.util.stream.Collectors;
 public class ERRewardService implements RewardService {
 
     private static ERRewardService rewardServiceInstance;
-    private Map<Board, List<Reward>> rewardData;
-    private Map<UUID, String> activeTitles;
-    private Map<UUID, Board> isModifyingBoard;
-    private Map<UUID, Integer> isSelectingItems;
-    private Map<UUID, List<ItemStack>> uncollectedRewards;
+    private final Map<Board, List<Reward>> rewardData;
+    private final Map<UUID, String> activeTitles;
+    private final Map<UUID, Board> isModifyingBoard;
+    private final Map<UUID, Integer> isSelectingItems;
+    private final Map<UUID, List<ItemStack>> uncollectedRewards;
 
     private ERRewardService() {
-        if (rewardServiceInstance != null){
+        if (rewardServiceInstance != null) {
             throw new RuntimeException("Use getInstance() method to get the single instance of this class.");
         }
         this.rewardData = new HashMap<>();
@@ -85,7 +81,9 @@ public class ERRewardService implements RewardService {
         if(!rewardData.containsKey(board)) {
             return;
         }
-        List<Reward> rewardsList = rewardData.get(board).stream().filter(r -> (r.getRankingPosition() == rankPosition && r.getRewardType() == GUIUtil.ITEM_TYPE)).collect(Collectors.toList());
+        List<Reward> rewardsList = rewardData.get(board).stream()
+                .filter(r -> (r.getRankingPosition() == rankPosition && r.getRewardType() == GUIUtil.ITEM_TYPE))
+                .collect(Collectors.toList());
         rewardData.get(board).removeAll(rewardsList);
     }
 
@@ -103,30 +101,30 @@ public class ERRewardService implements RewardService {
         if(!rewardData.containsKey(board)) {
             return;
         }
-        List<Reward> rewardsList = rewardData.get(board).stream().filter(r -> (r.getRankingPosition() == rankPosition && r.getRewardType() == GUIUtil.TITLE_TYPE)).collect(Collectors.toList());
+        List<Reward> rewardsList = rewardData.get(board).stream()
+                .filter(r -> (r.getRankingPosition() == rankPosition && r.getRewardType() == GUIUtil.TITLE_TYPE))
+                .collect(Collectors.toList());
         rewardData.get(board).removeAll(rewardsList);
     }
 
     @Override
     public void collectRewards() {
         BoardService boardService = ERBoardService.getInstance();
-        ScoreboardService scoreboardService = ERScoreboardService.getInstance();
         Set<Board> boardsList = boardService.getBoards();
 
-        for( Board board : boardsList ) {
+        for (Board board : boardsList) {
 
             Bukkit.getServer().broadcastMessage("\n" + ChatColor.DARK_AQUA + board.getName());
-
             List<UUID> userScores = boardService.sortScores(board);
+
             boolean dataEmpty = true;
 
-            for( int i = 0; i < 3; i ++ ) {
+            for (int i = 0; i < 3; i ++) {
 
-                Integer playerRankPosition = i + 1;
+                int playerRankPosition = i + 1;
 
-                if( userScores.size() < playerRankPosition )
-                    continue;
-
+                if (userScores.size() < playerRankPosition)
+                    break;
 
                 dataEmpty = false;
 
@@ -135,39 +133,37 @@ public class ERRewardService implements RewardService {
                 Player player = Bukkit.getPlayer(playerUUID);
                 OfflinePlayer offlinePlayer = null;
 
-                if( player == null ) {
+                if (player == null) {
                     offlinePlayer = Bukkit.getOfflinePlayer(playerUUID);
                     if (offlinePlayer.hasPlayedBefore()) {
                         Bukkit.getServer().broadcastMessage(ChatColor.YELLOW + String.valueOf(playerRankPosition) +
                                 "." + ChatColor.GOLD + " " + offlinePlayer.getName() + ChatColor.DARK_GRAY +
                                 " (" + ChatColor.GREEN +
-                                ChatFormatter.thousandSeparator(board.getUserScore(playerUUID).get().longValue()) +
+                                ChatFormatter.thousandSeparator(board.getUserScore(playerUUID).orElse(0f).longValue()) +
                                 " " + board.getUserScoreName() + ChatColor.DARK_GRAY + ")");
                     }
                 } else {
                     Bukkit.getServer().broadcastMessage(ChatColor.YELLOW + String.valueOf(playerRankPosition) +
-                            "." + ChatColor.GOLD + " " + player.getPlayerListName() + ChatColor.DARK_GRAY + " (" +
+                            "." + ChatColor.GOLD + " " + player.getName() + ChatColor.DARK_GRAY + " (" +
                             ChatColor.GREEN +
-                            ChatFormatter.thousandSeparator(board.getUserScore(playerUUID).get().longValue()) +
+                            ChatFormatter.thousandSeparator(board.getUserScore(playerUUID).orElse(0f).longValue()) +
                             " " + board.getUserScoreName() + ChatColor.DARK_GRAY + ")");
                 }
 
                 List<Reward> rewardsList = getRewardsByPosition(board, playerRankPosition);
 
-                if ( rewardsList == null )
+                if (rewardsList == null)
                     continue;
 
-                for ( Reward reward : rewardsList ) {
+                for (Reward reward : rewardsList) {
                     if (reward instanceof ERItemReward) {
                         ItemStack itemType = ((ERItemReward)reward).getReward();
 
-                        if(player == null) {
+                        if (player == null)
                             addUncollectedItem(playerUUID, itemType);
-                        } else {
-
-                            if(player.getInventory().addItem(itemType).size() != 0)
+                        else {
+                            if (player.getInventory().addItem(itemType).size() != 0)
                                 player.getWorld().dropItem(player.getLocation(), itemType);
-
                         }
                     }
 
@@ -182,27 +178,23 @@ public class ERRewardService implements RewardService {
 
                     if (reward instanceof ERTitleReward) {
                         String title = ((ERTitleReward)reward).getReward();
-                        //todo: non viene gestito il caso in cui il player è offline
-                        if (player != null)
-                            setUserTitle(player.getUniqueId(), title);
-
-                        if (offlinePlayer != null && offlinePlayer.hasPlayedBefore())
-                            setUserTitle(offlinePlayer.getUniqueId(),title);
+                        setUserTitle(playerUUID,title);
                     }
                 }
 
-                if(player != null) {
+                if (player != null) {
                     player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 10, 1);
-                    scoreboardService.updateScoreBoard(player.getUniqueId());
+                    //scoreboardService.updateScoreBoard(player.getUniqueId());
                 }
             }
-            if( dataEmpty ) {
+
+            if (dataEmpty)
                 Bukkit.getServer().broadcastMessage(ChatColor.GRAY + "No data found");
-            }
+
             // Clear all data from memory
-            if(board.getFgReset()) {
+            if (board.getFgReset())
                 board.clearAllScores();
-            }
+
         }
 
         // Clear all data from database
@@ -270,10 +262,7 @@ public class ERRewardService implements RewardService {
 
     @Override
     public void addUncollectedItem(UUID uuid, ItemStack itemStack) {
-        if(this.uncollectedRewards.get(uuid) == null) {
-            this.uncollectedRewards.put(uuid, new ArrayList<>());
-        }
-
+        this.uncollectedRewards.computeIfAbsent(uuid, k -> new ArrayList<>());
         this.uncollectedRewards.get(uuid).add(itemStack);
     }
 
@@ -299,12 +288,12 @@ public class ERRewardService implements RewardService {
 
     @Override
     public Board getBoardFromModifyingPlayer(UUID playerUniqueId) {
-        return isModifyingBoard.containsKey(playerUniqueId) ? isModifyingBoard.get(playerUniqueId) : null;
+        return isModifyingBoard.getOrDefault(playerUniqueId, null);
     }
 
     @Override
     public int getItemSelectionRankFromModifyingPlayer(UUID playerUniqueId) {
-        return isSelectingItems.containsKey(playerUniqueId) ? isSelectingItems.get(playerUniqueId) : 0;
+        return isSelectingItems.getOrDefault(playerUniqueId, 0);
     }
 
     @Override
@@ -316,8 +305,9 @@ public class ERRewardService implements RewardService {
     public void setUserTitle(UUID playerUUID, String title) {
         this.activeTitles.put(playerUUID, title);
 
+        /*
         // If Towny is enabled, easyranking will hook into it
-        if(Bukkit.getPluginManager().getPlugin("Towny") != null) {
+        if (Bukkit.getPluginManager().getPlugin("Towny") != null) {
             TownyAPI townyAPI = TownyAPI.getInstance();
 
             try{
@@ -332,11 +322,13 @@ public class ERRewardService implements RewardService {
                 e.printStackTrace();
             }
         }
+
+         */
     }
 
     @Override
-    public void removeUserTitle(UUID player) {
-        this.activeTitles.remove(player);
+    public void removeUserTitle(UUID uuid) {
+        this.activeTitles.remove(uuid);
     }
 
 }

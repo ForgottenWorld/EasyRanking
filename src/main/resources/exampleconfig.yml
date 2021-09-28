@@ -54,6 +54,18 @@ mobKilled:
   # Define the amount of points given for each monster type
   # See here for a full reference: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/EntityType.html
   values:
+    #HOSTILE
+    CREEPER: 5
+    ZOMBIE: 2
+    SKELETON: 3
+    CAVE_SPIDER: 3
+    ENDERMAN: 5
+    GHAST: 4
+    MAGMA_CUBE: 2
+    PHANTOM: 2
+    SLIME: 1
+    WITCH: 3
+    SPIDER: 2
 
 # PLAYER KILLED LEADERBOARD
 # Please never ever change the leaderboard node name,
@@ -77,6 +89,17 @@ oresMined:
   enabled: true
   # Define the amount of points given for each ore type
   values:
+    ANCIENT_DEBRIS: 20
+    EMERALD_ORE: 10
+    DIAMOND_ORE: 20
+    LAPIS_ORE: 5
+    GOLD_ORE: 5
+    IRON_ORE: 3
+    COPPER_ORE: 3
+    REDSTONE_ORE: 2
+    COAL_ORE: 1
+    NETHER_QUARTZ_ORE: 1
+    NETHER_GOLD_ORE: 5
 
 # DUNGEONS COMPLETED LEADERBOARD
 # Please never ever change the leaderboard node name,
@@ -97,6 +120,14 @@ wood:
   enabled: true
   # Define the amount of points given for each wood type
   values:
+    BIRCH_LOG: 1
+    SPRUCE_LOG: 1
+    OAK_LOG: 1
+    JUNGLE_LOG: 1
+    ACACIA_LOG: 1
+    DARK_OAK_LOG: 1
+    CRIMSON_HYPHAE: 1
+    WARPED_HYPHAE: 1
 
 # FARMING LEADERBOARD
 # Please never ever change the leaderboard node name,
@@ -105,6 +136,22 @@ farming:
   enabled: true
   # Define the amount of points given for each cultivation type
   values:
+    WHEAT: 3
+    CARROTS: 3
+    POTATOES: 3
+    BEETROOTS: 3
+    COCOA: 3
+    NETHER_WART: 3
+    SWEET_BERRY_BUSH: 2
+    MELON: 2
+    PUMPKIN: 2
+    RED_MUSHROOM: 1
+    BROWN_MUSHROOM: 1
+    CRIMSON_FUNGUS: 1
+    WARPED_FUNGUS: 1
+    SUGAR_CANE: 1
+    CACTUS: 1
+    BAMBOO: 1
 
 # FISHING LEADERBOARD
 # Please never ever change the leaderboard node name,
@@ -113,6 +160,13 @@ fishing:
   enabled: true
   # Define the amount of points given
   values:
+    COD: 1
+    SALMON: 1
+    PUFFERFISH: 5
+    ENCHANTED_BOOK: 20
+    TROPICAL_FISH: 10
+    NAUTILUS_SHELL: 2
+    SADDLE: 5
 
 # PLAYER DEATH LEADERBOARD
 # Please never ever change the leaderboard node name,

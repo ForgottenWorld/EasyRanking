@@ -85,11 +85,13 @@ public final class Easyranking extends JavaPlugin {
     public void registerListeners(){
         getServer().getPluginManager().registerEvents(new GUIRewardListener(),this);
         getServer().getPluginManager().registerEvents(new KilledMobsListener(),this);
-        getServer().getPluginManager().registerEvents(new KilledPlayersListener(),this);
+        getServer().getPluginManager().registerEvents(new PlayerDeathListener(),this);
         getServer().getPluginManager().registerEvents(new OresMinedListener(),this);
         getServer().getPluginManager().registerEvents(new WoodCutListener(),this);
         getServer().getPluginManager().registerEvents(new FarmingListener(),this);
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(),this);
+        getServer().getPluginManager().registerEvents(new FishingListener(),this);
+
 
         // If PlaceholderAPI is enable, easyranking will use it, otherwise
         // it will use a custom made chat listener

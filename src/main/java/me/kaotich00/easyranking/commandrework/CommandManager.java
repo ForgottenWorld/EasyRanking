@@ -3,7 +3,7 @@ package me.kaotich00.easyranking.commandrework;
 import me.kaotich00.easyranking.commandrework.admin.*;
 import me.kaotich00.easyranking.commandrework.user.CreditsCommand;
 import me.kaotich00.easyranking.commandrework.admin.InfoCommand;
-import me.kaotich00.easyranking.commandrework.user.ShowCommand;
+import me.kaotich00.easyranking.commandrework.user.WebPageCommand;
 import me.kaotich00.easyranking.commandrework.user.TopCommand;
 import me.kaotich00.easyranking.utils.ChatFormatter;
 import me.kaotich00.easyranking.utils.NameUtil;
@@ -31,11 +31,13 @@ public class CommandManager implements TabExecutor{
         subcommands.add(new ReloadCommand());
         subcommands.add(new RewardCommand());
         subcommands.add(new ScoreCommand());
+        subcommands.add(new InfoCommand());
         //** user commands **//
         subcommands.add(new CreditsCommand());
-        subcommands.add(new InfoCommand());
-        subcommands.add(new ShowCommand());
+        subcommands.add(new WebPageCommand());
         subcommands.add(new TopCommand());
+        //subcommands.add(new ScoreBoardCommand());
+
 
     }
 

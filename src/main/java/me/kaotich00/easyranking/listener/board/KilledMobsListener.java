@@ -19,35 +19,40 @@ public class KilledMobsListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onMobKilled(EntityDeathEvent event) {
-        if(!(event.getEntity() instanceof Monster) && !(event.getEntity() instanceof Flying) && !(event.getEntity() instanceof Slime)) {
+        if (event.getEntity().getKiller() == null)
             return;
-        }
 
-        if(!(event.getEntity().getKiller() instanceof Player)) {
+        if (!(event.getEntity() instanceof Monster)
+                && !(event.getEntity() instanceof Flying)
+                && !(event.getEntity() instanceof Slime)
+                && !(event.getEntity() instanceof Animals)) {
             return;
         }
 
         BoardService boardService = ERBoardService.getInstance();
         Player player = event.getEntity().getKiller();
 
-        if(boardService.isUserExempted(player.getUniqueId())) {
+        if (boardService.isUserExempted(player.getUniqueId()))
             return;
-        }
 
         Optional<Board> optionalBoard = boardService.getBoardById(BoardUtil.MOB_KILLED_BOARD_ID);
 
-        if( !optionalBoard.isPresent() ) {
+        if (!optionalBoard.isPresent())
             return;
-        }
 
         Board board = optionalBoard.get();
 
         FileConfiguration defaultConfig = Easyranking.getDefaultConfig();
-        ConfigurationSection oreSection = defaultConfig.getConfigurationSection("mobKilled.values");
+        ConfigurationSection mobSection = defaultConfig.getConfigurationSection("mobKilled.values");
+
         String killedMob = event.getEntityType().name();
 
-        Integer score = oreSection.contains(killedMob) ? defaultConfig.getInt("mobKilled.values." + killedMob) : 1;
-        boardService.addScoreToPlayer(board, player.getUniqueId(), score.floatValue());
+        if (mobSection == null || !mobSection.contains(killedMob))
+            return;
+
+        int score = defaultConfig.getInt("mobKilled.values." + killedMob);
+        boardService.addScoreToPlayer(board, player.getUniqueId(), (float) score);
+
     }
 
 }

@@ -1,10 +1,7 @@
 package me.kaotich00.easyranking.listener.player;
 
-import me.kaotich00.easyranking.api.reward.Reward;
 import me.kaotich00.easyranking.api.service.RewardService;
-import me.kaotich00.easyranking.reward.types.ERItemReward;
 import me.kaotich00.easyranking.service.ERRewardService;
-import me.kaotich00.easyranking.storage.Storage;
 import me.kaotich00.easyranking.storage.StorageFactory;
 import me.kaotich00.easyranking.storage.StorageMethod;
 import me.kaotich00.easyranking.utils.ChatFormatter;
@@ -27,15 +24,15 @@ public class PlayerJoinListener implements Listener {
         RewardService rewardService = ERRewardService.getInstance();
         List<ItemStack> rewardsForPlayer = rewardService.getUncollectedRewardForUser(event.getPlayer().getUniqueId());
 
-        if(rewardsForPlayer == null) {
+        if (rewardsForPlayer == null)
             return;
-        }
 
-        player.sendMessage(ChatFormatter.formatSuccessMessage("You had uncollected rewards, please check your inventory or drops if you have a full inventory."));
+        player.sendMessage(ChatFormatter.formatSuccessMessage("You had uncollected rewards, please check your"
+                + " inventory or drops if you have a full inventory."));
+
         for( ItemStack reward : rewardsForPlayer ) {
-            if (player.getInventory().addItem(reward).size() != 0) {
+            if (player.getInventory().addItem(reward).size() != 0)
                 player.getWorld().dropItem(player.getLocation(), reward);
-            }
         }
 
         rewardService.removeUncollectedItemsForPlayer(player.getUniqueId());

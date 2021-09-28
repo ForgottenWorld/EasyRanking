@@ -3,7 +3,6 @@ package me.kaotich00.easyranking.service;
 import me.kaotich00.easyranking.api.board.Board;
 import me.kaotich00.easyranking.api.service.BoardService;
 import me.kaotich00.easyranking.api.service.RewardService;
-import me.kaotich00.easyranking.api.service.ScoreboardService;
 import me.kaotich00.easyranking.board.ERBoard;
 import me.kaotich00.easyranking.storage.Storage;
 import me.kaotich00.easyranking.storage.StorageFactory;
@@ -21,8 +20,8 @@ import java.util.concurrent.CompletableFuture;
 public class ERBoardService implements BoardService {
 
     private static ERBoardService boardServiceInstance;
-    private Set<Board> boardsList;
-    private Set<UUID> exemptedUsers;
+    private final Set<Board> boardsList;
+    private final Set<UUID> exemptedUsers;
 
     private ERBoardService() {
         if (boardServiceInstance != null){
@@ -102,6 +101,9 @@ public class ERBoardService implements BoardService {
         info.add(ChatColor.GREEN + "Description" + ": " + ChatColor.RESET + board.getDescription());
         info.add(ChatColor.GREEN + "Max shown players" + ": " + ChatColor.RESET + board.getMaxShownPlayers());
         info.add(ChatColor.GREEN + "Score suffix" + ": " + ChatColor.RESET + board.getUserScoreName());
+        info.add(ChatColor.GREEN + "Reset flag" + ": " + ChatColor.RESET + board.getFgReset());
+        info.add(ChatColor.GREEN + "Is default" + ": " + ChatColor.RESET + board.isDefault());
+
         return info;
     }
 
@@ -137,7 +139,12 @@ public class ERBoardService implements BoardService {
             board.addUser(playerUUID);
         }
 
-        Float newScore = board.getUserScore(playerUUID).get() + score;
+        Float oldScore = board.getUserScore(playerUUID).get();
+        Float newScore = Math.max(oldScore + score,0);
+
+        if (newScore.equals(oldScore))
+            return 0;
+
         board.setUserScore(playerUUID, newScore);
 
         Player player = Bukkit.getPlayer(playerUUID);
@@ -145,16 +152,13 @@ public class ERBoardService implements BoardService {
             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                     (ChatFormatter.formatSuccessMessage(
                             ChatColor.DARK_GRAY + "[" + ChatColor.DARK_AQUA + board.getName() + ChatColor.DARK_GRAY + "] " +
-                                    ChatColor.GRAY + "(" + ChatColor.GREEN + "+" + ChatFormatter.thousandSeparator(score.longValue()) + " " + board.getUserScoreName() + ChatColor.GRAY + ")" +
+                                    ChatColor.GRAY + "(" + ChatColor.GREEN  + ChatFormatter.thousandSeparator(score.longValue()) + " " + board.getUserScoreName() + ChatColor.GRAY + ")" +
                                     ChatColor.DARK_GRAY + " |" +
                                     ChatColor.GRAY + " New score: " +
                                     ChatColor.GOLD + ChatFormatter.thousandSeparator(newScore.longValue()) + " " + board.getUserScoreName()
                     ))
             ));
         }
-
-        ScoreboardService scoreboardService = ERScoreboardService.getInstance();
-        scoreboardService.updateScoreBoard(playerUUID);
 
         return newScore;
     }
@@ -186,9 +190,6 @@ public class ERBoardService implements BoardService {
                     ))
             ));
         }
-
-        ScoreboardService scoreboardService = ERScoreboardService.getInstance();
-        scoreboardService.updateScoreBoard(playerUUID);
 
         return newScore;
     }
@@ -231,9 +232,6 @@ public class ERBoardService implements BoardService {
                     ))
             ));
         }
-
-        ScoreboardService scoreboardService = ERScoreboardService.getInstance();
-        scoreboardService.updateScoreBoard(playerUUID);
 
         return score;
     }

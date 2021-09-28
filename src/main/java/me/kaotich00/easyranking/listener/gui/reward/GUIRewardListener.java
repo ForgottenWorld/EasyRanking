@@ -36,9 +36,8 @@ public class GUIRewardListener implements Listener, ConversationAbandonedListene
     }
 
     private void dispatchClickEvent(InventoryClickEvent event ) {
-        if( event.getCurrentItem() == null ) {
+        if (event.getCurrentItem() == null)
             return;
-        }
 
         switch(event.getView().getTitle()) {
             case GUIUtil.REWARD_TS_INVENTORY_TITLE:
@@ -59,7 +58,6 @@ public class GUIRewardListener implements Listener, ConversationAbandonedListene
                     event.setCancelled(true);
                 break;
             default:
-                return;
         }
     }
 

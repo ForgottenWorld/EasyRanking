@@ -24,9 +24,8 @@ public class CommandName {
 
     public static final String INFO = "info";
 
-    public static final String SHOW = "show";
+    public static final String WEBPAGE = "webpage";
 
     public static final String TOP = "top";
-
 
 }

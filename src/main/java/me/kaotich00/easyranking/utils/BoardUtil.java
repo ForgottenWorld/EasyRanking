@@ -38,4 +38,8 @@ public class BoardUtil {
     public static final String FISHING_BOARD_NAME = "Fisherman";
     public static final String FISHING_BOARD_DESCRIPTION = "This leaderboard tracks how many fishes has the player fish";
 
+    public static final String DEATH_BOARD_ID = "playerDeath";
+    public static final String DEATH_BOARD_NAME = "Death counter";
+    public static final String DEATH_BOARD_DESCRIPTION = "This leaderboard keeps track of how many times the player has died";
+
 }

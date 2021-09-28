@@ -49,8 +49,8 @@ public class FishingListener implements Listener {
 
         Board board = optionalBoard.get();
 
-        Integer score = defaultConfig.getInt("fishing.values." + itemName);
-        boardService.addScoreToPlayer(board, player.getUniqueId(), score.floatValue());
+        int score = defaultConfig.getInt("fishing.values." + itemName);
+        boardService.addScoreToPlayer(board, player.getUniqueId(), (float) score);
 
     }
 

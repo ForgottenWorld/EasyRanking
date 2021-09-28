@@ -35,7 +35,7 @@ public class TitleRewardPrompt extends StringPrompt {
 
         rewardService.clearTitleReward(this.board, this.rankPosition);
 
-        if(input.equalsIgnoreCase("reset")) {
+        if (input.equalsIgnoreCase("reset")) {
             player.sendMessage(ChatFormatter.formatSuccessMessage(ChatColor.GRAY + "Successfully resetted title"));
             return Prompt.END_OF_CONVERSATION;
         }
