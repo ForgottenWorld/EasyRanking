@@ -1,5 +1,8 @@
 package me.kaotich00.easyranking.service;
 
+import com.palmergames.bukkit.towny.TownyAPI;
+import com.palmergames.bukkit.towny.exceptions.NotRegisteredException;
+import com.palmergames.bukkit.towny.object.Resident;
 import me.kaotich00.easyranking.Easyranking;
 import me.kaotich00.easyranking.api.board.Board;
 import me.kaotich00.easyranking.api.reward.Reward;
@@ -305,7 +308,6 @@ public class ERRewardService implements RewardService {
     public void setUserTitle(UUID playerUUID, String title) {
         this.activeTitles.put(playerUUID, title);
 
-        /*
         // If Towny is enabled, easyranking will hook into it
         if (Bukkit.getPluginManager().getPlugin("Towny") != null) {
             TownyAPI townyAPI = TownyAPI.getInstance();
@@ -322,8 +324,6 @@ public class ERRewardService implements RewardService {
                 e.printStackTrace();
             }
         }
-
-         */
     }
 
     @Override

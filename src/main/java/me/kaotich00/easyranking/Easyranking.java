@@ -3,6 +3,7 @@ package me.kaotich00.easyranking;
 import me.kaotich00.easyranking.api.service.TaskService;
 import me.kaotich00.easyranking.commandrework.CommandManager;
 import me.kaotich00.easyranking.listener.board.*;
+import me.kaotich00.easyranking.listener.board.mospawn.MobSpawnListener;
 import me.kaotich00.easyranking.listener.gui.reward.GUIRewardListener;
 import me.kaotich00.easyranking.listener.gui.reward.TitleRewardListener;
 import me.kaotich00.easyranking.listener.player.PlayerJoinListener;
@@ -92,6 +93,8 @@ public final class Easyranking extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(),this);
         getServer().getPluginManager().registerEvents(new FishingListener(),this);
 
+        if (defaultConfig.getBoolean("mobKilled.allowSpawner"))
+            getServer().getPluginManager().registerEvents(new MobSpawnListener(), this);
 
         // If PlaceholderAPI is enable, easyranking will use it, otherwise
         // it will use a custom made chat listener

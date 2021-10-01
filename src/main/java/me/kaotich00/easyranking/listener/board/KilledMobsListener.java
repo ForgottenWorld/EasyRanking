@@ -29,6 +29,9 @@ public class KilledMobsListener implements Listener {
             return;
         }
 
+        if (!event.getEntity().getMetadata("SPAWNER").isEmpty())
+            return;
+
         BoardService boardService = ERBoardService.getInstance();
         Player player = event.getEntity().getKiller();
 

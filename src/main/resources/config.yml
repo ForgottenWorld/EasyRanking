@@ -51,6 +51,9 @@ web_page_link: 'PUT_LINK_HERE'
 mobKilled:
   # Wheter the leaderboard should be enabled or not (default: true)
   enabled: true
+  # allow mobs spawned from spawner
+  # (default: true) restart is needed if u change this value
+  allowSpawner: true
   # Define the amount of points given for each monster type
   # See here for a full reference: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/EntityType.html
   values:

@@ -240,7 +240,7 @@ public class SqlStorage implements StorageMethod {
                         }
 
                         String title = rs.getString("active_title");
-                        rewardService.setUserTitle(uuid,title);
+                        //rewardService.setUserTitle(uuid,title);
                     }
                 }
             }
