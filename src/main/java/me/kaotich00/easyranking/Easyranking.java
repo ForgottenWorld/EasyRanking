@@ -1,5 +1,6 @@
 package me.kaotich00.easyranking;
 
+import me.kaotich00.easyranking.api.service.GrinderService;
 import me.kaotich00.easyranking.api.service.TaskService;
 import me.kaotich00.easyranking.commandrework.CommandManager;
 import me.kaotich00.easyranking.listener.board.*;
@@ -9,6 +10,7 @@ import me.kaotich00.easyranking.listener.gui.reward.TitleRewardListener;
 import me.kaotich00.easyranking.listener.player.PlayerJoinListener;
 import me.kaotich00.easyranking.reward.types.title.TitleExpansion;
 import me.kaotich00.easyranking.service.ERBoardService;
+import me.kaotich00.easyranking.service.ERGrinderService;
 import me.kaotich00.easyranking.service.ERRewardService;
 import me.kaotich00.easyranking.service.ERTaskService;
 import me.kaotich00.easyranking.storage.Storage;
@@ -71,6 +73,8 @@ public final class Easyranking extends JavaPlugin {
         ERRewardService.getInstance();
         ERBoardService.getInstance();
         ERTaskService.getInstance();
+        // Schedule grinder service task if is enabled
+        ERGrinderService.getInstance();
     }
 
     public void initStorage() {
@@ -145,6 +149,10 @@ public final class Easyranking extends JavaPlugin {
         taskService.stopDatabaseSyncTask();
         taskService.scheduleEconomyTask();
         taskService.scheduleDatabaseSyncTask();
+        // Re-schedule grinder service task if is enabled
+        GrinderService grinderService = ERGrinderService.getInstance();
+        grinderService.stopGrinderTask();
+        grinderService.scheduleGrinderTask();
     }
 
 }

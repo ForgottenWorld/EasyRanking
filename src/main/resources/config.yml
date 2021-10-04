@@ -63,6 +63,14 @@ mobKilled:
 # unless you want very big trouble
 playerKilled:
   enabled: true
+  anti_grinder:
+    enabled: true
+    # How frequently should the plugin
+    # check 'anti grinder list' in minutes (default: 10)
+    check_frequency: 10
+    # Minimum period a death player stay in 'anti grinder list'
+    # in minutes (default: 15)
+    clear_period: 15
 
 # ECONOMY LEADERBOARD
 # Please never ever change the leaderboard node name,
