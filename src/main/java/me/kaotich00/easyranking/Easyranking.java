@@ -97,7 +97,7 @@ public final class Easyranking extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(),this);
         getServer().getPluginManager().registerEvents(new FishingListener(),this);
 
-        if (defaultConfig.getBoolean("mobKilled.allowSpawner"))
+        if (!defaultConfig.getBoolean("mobKilled.allowSpawner"))
             getServer().getPluginManager().registerEvents(new MobSpawnListener(), this);
 
         // If PlaceholderAPI is enable, easyranking will use it, otherwise
