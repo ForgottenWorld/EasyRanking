@@ -15,7 +15,7 @@ import java.util.Optional;
 
 public class BountiesListener implements Listener {
 
-    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.LOW)
     public void onBountyAdd(BountyAddEvent event) {
         BoardService boardService = ERBoardService.getInstance();
 
@@ -36,7 +36,7 @@ public class BountiesListener implements Listener {
                 .ifPresent(value -> boardService.setScoreOfPlayer(board,event.getPlayerUUID(), value.floatValue()));
     }
 
-    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.LOW)
     public void onBountySubtract(BountySubtractEvent event) {
         BoardService boardService = ERBoardService.getInstance();
 

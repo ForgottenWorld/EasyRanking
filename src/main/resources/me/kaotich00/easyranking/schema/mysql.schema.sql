@@ -22,6 +22,8 @@ INSERT INTO easyranking_board(`id`,`name`,`description`,`max_players`,`user_scor
 INSERT INTO easyranking_board(`id`,`name`,`description`,`max_players`,`user_score_name`,`is_visible`,`is_deleted`,`is_default`) VALUES ('wood','Carpenter','This leaderboard tracks how any wood pieces were cutted by player',100,'pieces',true,false,true) ON DUPLICATE KEY UPDATE `id` = `id`;
 INSERT INTO easyranking_board(`id`,`name`,`description`,`max_players`,`user_score_name`,`is_visible`,`is_deleted`,`is_default`) VALUES ('fishing','Fisherman','This leaderboard tracks how many fishes has the player fish',100,'fish',true,false,true) ON DUPLICATE KEY UPDATE `id` = `id`;
 INSERT INTO easyranking_board(`id`,`name`,`description`,`max_players`,`user_score_name`,`is_visible`,`is_deleted`,`is_default`) VALUES ('playerDeath','Death counter','This leaderboard keeps track of how many times the player has died',100,'times',true,false,true) ON DUPLICATE KEY UPDATE `id` = `id`;
+INSERT INTO easyranking_board(`id`,`name`,`description`,`max_players`,`user_score_name`,`is_visible`,`is_deleted`,`is_default`) VALUES ('blacksmith','Blacksmith','This leaderboard keeps track of items repaired by player',100,'points',true,false,true) ON DUPLICATE KEY UPDATE `id` = `id`;
+
 
 CREATE TABLE IF NOT EXISTS `easyranking_user` (
   `uuid` varchar(36) NOT NULL,

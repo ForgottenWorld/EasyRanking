@@ -42,4 +42,8 @@ public class BoardUtil {
     public static final String DEATH_BOARD_NAME = "Death counter";
     public static final String DEATH_BOARD_DESCRIPTION = "This leaderboard keeps track of how many times the player has died";
 
+    public static final String BLACKSMITH_BOARD_ID = "blacksmith";
+    public static final String BLACKSMITH_BOARD_NAME = "Blacksmith";
+    public static final String BLACKSMITH_BOARD_DESCRIPTION = "This leaderboard keeps track of items repaired by player";
+
 }

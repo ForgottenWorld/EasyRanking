@@ -96,6 +96,7 @@ public final class Easyranking extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new FarmingListener(),this);
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(),this);
         getServer().getPluginManager().registerEvents(new FishingListener(),this);
+        getServer().getPluginManager().registerEvents(new BlacksmithListener(),this);
 
         if (!defaultConfig.getBoolean("mobKilled.allowSpawner"))
             getServer().getPluginManager().registerEvents(new MobSpawnListener(), this);

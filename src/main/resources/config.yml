@@ -57,6 +57,7 @@ mobKilled:
   # Define the amount of points given for each monster type
   # See here for a full reference: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/EntityType.html
   values:
+    CREEPER: 5
 
 # PLAYER KILLED LEADERBOARD
 # Please never ever change the leaderboard node name,
@@ -88,6 +89,7 @@ oresMined:
   enabled: true
   # Define the amount of points given for each ore type
   values:
+    DIAMOND_ORE: 15
 
 # DUNGEONS COMPLETED LEADERBOARD
 # Please never ever change the leaderboard node name,
@@ -108,6 +110,7 @@ wood:
   enabled: true
   # Define the amount of points given for each wood type
   values:
+    OAK_LOG: 1
 
 # FARMING LEADERBOARD
 # Please never ever change the leaderboard node name,
@@ -116,6 +119,7 @@ farming:
   enabled: true
   # Define the amount of points given for each cultivation type
   values:
+    WHEAT: 1
 
 # FISHING LEADERBOARD
 # Please never ever change the leaderboard node name,
@@ -124,9 +128,16 @@ fishing:
   enabled: true
   # Define the amount of points given
   values:
+    SALMON: 1
 
 # PLAYER DEATH LEADERBOARD
 # Please never ever change the leaderboard node name,
 # unless you want very big trouble
 playerDeath:
+  enabled: true
+
+# BLACKSMITH LEADERBOARD
+# Please never ever change the leaderboard node name,
+# unless you want very big trouble
+blacksmith:
   enabled: true
