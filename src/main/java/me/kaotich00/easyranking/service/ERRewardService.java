@@ -180,15 +180,17 @@ public class ERRewardService implements RewardService {
                     }
 
                     if (reward instanceof ERTitleReward) {
+                        /*
                         String title = ((ERTitleReward)reward).getReward();
                         setUserTitle(playerUUID,title);
+
+                         */
                     }
                 }
 
-                if (player != null) {
+                if (player != null)
                     player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 10, 1);
-                    //scoreboardService.updateScoreBoard(player.getUniqueId());
-                }
+
             }
 
             if (dataEmpty)

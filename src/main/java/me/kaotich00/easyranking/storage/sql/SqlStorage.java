@@ -239,7 +239,7 @@ public class SqlStorage implements StorageMethod {
                             continue;
                         }
 
-                        String title = rs.getString("active_title");
+                        //String title = rs.getString("active_title");
                         //rewardService.setUserTitle(uuid,title);
                     }
                 }
