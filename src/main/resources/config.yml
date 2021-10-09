@@ -126,6 +126,7 @@ farming:
 # unless you want very big trouble
 fishing:
   enabled: true
+  disable_afk_farm: true
   # Define the amount of points given
   values:
     SALMON: 1

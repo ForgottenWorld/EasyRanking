@@ -25,6 +25,10 @@ public class FishingListener implements Listener {
         if (event.getPlayer().getGameMode().equals(GameMode.CREATIVE)
                 || !event.getState().equals(PlayerFishEvent.State.CAUGHT_FISH)) return;
 
+        if (!event.getHook().isInOpenWater()
+                && Easyranking.getDefaultConfig().getBoolean("fishing.disable_afk_farm"))
+            return;
+
         BoardService boardService = ERBoardService.getInstance();
         Player player = event.getPlayer();
 
